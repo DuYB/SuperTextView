@@ -2,9 +2,13 @@ package com.allen.supertextview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
+import android.view.Gravity;
 
 import com.allen.library.SuperTextView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -13,10 +17,10 @@ import com.squareup.picasso.Picasso;
 public class TypeActivity extends AppCompatActivity {
 
     private int type;
-    private SuperTextView superTextView,superTextView2,superTextView3;
+    private SuperTextView superTextView, superTextView2, superTextView3, alipayStv, superTextView4;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getIntent().getIntExtra("type", 0);
         switch (type) {
@@ -41,26 +45,60 @@ public class TypeActivity extends AppCompatActivity {
                 break;
             case 6:
                 setContentView(R.layout.layout6);
+                superTextView4 = (SuperTextView) findViewById(R.id.super_tv4);
+                superTextView4.setCenterTextGravity(Gravity.LEFT);
+
                 break;
+            case 7:
+                setContentView(R.layout.layout7);
+                break;
+            case 8:
+                setContentView(R.layout.layout8);
+                break;
+
         }
-
-
 
     }
 
     private void setData() {
         superTextView = (SuperTextView) findViewById(R.id.super_tv1);
         superTextView2 = (SuperTextView) findViewById(R.id.super_tv2);
+        superTextView3 = (SuperTextView) findViewById(R.id.super_tv3);
+        alipayStv = (SuperTextView) findViewById(R.id.alipay_stv);
 
-        superTextView.setLeftTopString("姓名").setLeftBottomString("188********");
-        superTextView2.setLeftTopString("姓名").setLeftBottomString("181********");
+        String url1 = "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3860616424,1789830124&fm=80&w=179&h=119&img.PNG";
+        String url2 = "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=219781665,3032880226&fm=80&w=179&h=119&img.JPEG";
+        String url3 = "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3860616424,1789830124&fm=80&w=179&h=119&img.PNG";
+        String url4 = "http://osnoex6vf.bkt.clouddn.com/original_label.png";
 
+        Picasso.with(this)
+                .load(url1)
+                .placeholder(R.drawable.head_default)
+                .into(superTextView.getLeftIconIV());
+        Glide.with(this)
+                .load(url2)
+                .placeholder(R.drawable.head_default)
+                .fitCenter()
+                .into(superTextView2.getRightIconIV());
 
-        Picasso.with(this).load("https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3860616424,1789830124&fm=80&w=179&h=119&img.PNG")
-                .placeholder(R.drawable.head_default).into((ImageView) superTextView.getView(SuperTextView.leftImageViewId));
-        Picasso.with(this).load("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=219781665,3032880226&fm=80&w=179&h=119&img.JPEG")
-                .placeholder(R.drawable.head_default).into((ImageView) superTextView2.getView(SuperTextView.rightImageViewId));
+        Glide.with(this)
+                .load(url3)
+                .placeholder(R.drawable.head_default)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        superTextView3.setRightTvDrawableRight(resource);
+                    }
+                });
 
+        Glide.with(this)
+                .load(url4)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        alipayStv.setLeftTvDrawableRight(resource);
+                    }
+                });
     }
 
 
